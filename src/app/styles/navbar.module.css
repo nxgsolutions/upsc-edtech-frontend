@@ -1,0 +1,77 @@
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #424242; /* Default background color */
+    padding: 1rem;
+    padding-left: 80px;
+    position: fixed;
+    z-index: 1;
+    width: 100%;
+  
+  }
+  
+  .logo a {
+    font-size: 1.5rem;
+    font-weight: bold;
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  .menuToggle {
+    cursor: pointer;
+    display: none; /* Hide by default on larger screens */
+  }
+  
+  .hamburger {
+    width: 25px;
+    height: 3px;
+    background-color: #333;
+    margin: 5px 0;
+  }
+  
+  .menu {
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+  }
+  
+  .menu li {
+    margin-right: 20px;
+  }
+  
+  .menu a {
+    text-decoration: none;
+    color: #fff;
+  }
+  
+  @media (max-width: 768px) {
+    .menuToggle {
+      display: block; /* Display hamburger menu on smaller screens */
+    }
+    .navbar {
+
+        padding-left: 20px;
+      }
+  
+    .menu {
+      display: none; /* Hide menu items by default on smaller screens */
+      flex-direction: column;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      background-color: #fff; /* Default background color for smaller screens */
+      padding: 1rem;
+      box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.1);
+      padding-left: 100px 
+    }
+  
+    .menu.open {
+      display: flex; /* Display menu items when menu is open */
+    }
+    .menu img{
+        vertical-align: middle;
+    }
+  }
+  

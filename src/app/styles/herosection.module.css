@@ -1,0 +1,125 @@
+@import url('https://fonts.googleapis.com/css2?family=Josefin+Sans:wght@400;600;700&family=Lexend+Deca:wght@100;200;300;400;500;600;700&family=Montserrat:wght@400;700&family=Poppins:wght@300;400;600&display=swap');
+
+.main_section{
+    position: relative;
+    background: linear-gradient(-45deg,  #05234e, #4f5052);
+    background-size: 100% 100%;
+    /*animation: gradient-bg 20s ease infinite;*/
+    margin-top: 5%;
+}
+
+/*@keyframes gradient-bg {*/
+/*    0% {*/
+/*        background-position: 0% 50%;*/
+/*    }*/
+/*    50% {*/
+/*        background-position: 100% 50%;*/
+/*    }*/
+/*    100% {*/
+/*        background-position: 0% 50%;*/
+/*    }*/
+/*}*/
+
+.hero_content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.hero_content h1{
+    text-transform:uppercase;
+    font-size: 2.8rem;
+    color: #d3d3d3;
+}
+
+.hero_content p{
+    margin: 2rem 0 4rem 0;
+    font-weight: 300;
+    letter-spacing: .05rem;
+    line-height: 1.65;
+    /*font-family: 'Mulish', sans-serif;*/
+    color: #FFFFFF;
+}
+
+.hero_image{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.hero_image img{
+    max-width: 100%;
+    height: 400px;
+}
+
+/*waves effect */
+.custom-shape-divider-bottom-1681647578 {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-bottom-1681647578 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    /* height: 150px; */
+}
+
+.custom-shape-divider-bottom-1681647578 .shape-fill {
+    fill: #FFFFFF;
+}
+.video-container {
+    height: 300px;
+    width: 300px;
+    overflow: hidden;
+    position: relative;
+  }
+  
+  .video-container video {
+    min-width: 100%;
+    min-height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+  } 
+  
+  /* Just styling the content of the div, the *magic* in the previous rules */
+  .video-container .caption {
+    z-index: 1;
+    position: relative;
+    text-align: center;
+    color: #dc0000;
+    padding: 10px;
+  }
+
+@media screen and (max-width:768px) {
+
+    .hero_content{
+      order: 1;
+    }
+
+
+    .hero_image{
+        justify-content: center;
+        order: 0;
+    }
+
+    .hero_image img{
+        width: 40%;
+    }
+
+
+    /*!*waves effect *!*/
+    /*.custom-shape-divider-bottom-1681647578 {*/
+    /*   display: none;*/
+    /*}*/
+
+
+}
+
