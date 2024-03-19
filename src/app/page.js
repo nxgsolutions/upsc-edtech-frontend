@@ -2,9 +2,10 @@
 import styles from "./page.module.css";
 
 import TreeMap from "./components/TreeMap";
+import Tree from "./components/Tree";
 
 
-function Desktop(){
+function Desktop() {
   return (
     <div className={styles.desktop1}>
       <div className={styles.cardPrimary}>
@@ -73,15 +74,16 @@ function Desktop(){
       </div>
       <div className={styles.mindMapping} >
         <div className={styles.tree} >
-              <TreeMap/>
+          <TreeMap />
+          {/* <Tree/> */}
 
-              </div>
-              <div className={styles.treeContentIcon} >
-        <img
-          // className={styles.treeContentIcon}
-          alt=""
-          src="/treecontent@2x.png"
-        /></div>
+        </div>
+        <div className={styles.treeContentIcon} >
+          <img
+            // className={styles.treeContentIcon}
+            alt=""
+            src="/treecontent@2x.png"
+          /></div>
       </div>
       <div className={styles.cardPrimary4}>
         <b className={styles.scienceAndTechnologyContainer}>

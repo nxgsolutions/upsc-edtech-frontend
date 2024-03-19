@@ -151,3 +151,48 @@ a {
     color-scheme: dark;
   }
 }
+.node circle {
+  fill: #fff;
+  stroke: #c10f6e;
+  stroke-width: 2px;
+}
+
+.node text {
+  font: 9px sans-serif;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.link {
+  fill: none;
+  stroke: #ccc;
+  stroke-width: 1px;
+}
+
+div.tooltip {
+  position: absolute;
+  text-align: center;
+  max-width: 100px;
+  height: auto;
+  padding: 10px;
+  font: 12px sans-serif;
+  background: lightsteelblue;
+  border: 0px;
+  border-radius: 5px;
+
+}
+
+svg {
+  border: solid 1px
+}
+
+.text-div {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 10px;
+  /* padding-left: 9px; */
+  position: relative;
+  top: -15%;
+}

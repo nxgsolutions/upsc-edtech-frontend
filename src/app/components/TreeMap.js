@@ -370,16 +370,16 @@ const TreeMap = () => {
       .attr("transform", "translate("
         + margin.left + "," + margin.top + ")")
 
-    var div = d3.select(svgRef.current).append("div")
-      .attr("class", "tooltip")
-      .style("opacity", 0);
+    // var div = d3.select("body").append("div")
+    //   .attr("class", "tooltip")
+    //   .style("opacity", 0);
 
-    d3.select(svgRef.current)
-      .on("click", function (d) {
-        div.transition()
-          .duration(500)
-          .style("opacity", 0);
-      });
+    // d3.select("body")
+    //   .on("click", function (d) {
+    //     div.transition()
+    //       .duration(500)
+    //       .style("opacity", 0);
+    //   });
 
     var x = d3.scaleBand()
       .range([0, width])
@@ -390,14 +390,15 @@ const TreeMap = () => {
     // Add your chart elements here
     // Assigns parent, children, height, depth
     var root = d3.hierarchy(treeData, function (d) { return d.children; });
-    root.x0 = height / 2;
-    root.y0 = 0;
+    root.x = height / 2;
+    root.y = 0;
 
     // Collapse after the second level
     root.children.forEach(collapse);
     expand(root)
-    update(root, svg, div);
-  }, []);
+    update(root, svg);
+    console.log("render")
+  }, [treeData]);
 
   return (
    
