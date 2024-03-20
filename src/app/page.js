@@ -73,8 +73,8 @@ function Desktop() {
         </div>
       </div>
       <div className={styles.mindMapping} >
-        <div className={styles.tree} >
-          <TreeMap />
+        <div className={styles.tree} id="mindmap" >
+          <TreeMap /> 
           {/* <Tree/> */}
 
         </div>
