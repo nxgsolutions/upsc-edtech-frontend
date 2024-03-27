@@ -1,16 +1,16 @@
 'use client'
 import styles from "./page.module.css";
 import axios from 'axios'
-import TreeMap from "./components/TreeMap";
+import TreeMap from "../components/TreeMap";
 // import TreeNextjs from "./components/TreeNext";
 import { useEffect, useState } from "react";
 import { useSelector, useDispatch } from 'react-redux';
 import React from "react";
-import { getArticleData, setLoading } from "./redux/counterSlice"
-import PodcastShareContainer from "./components/podcast-share-container";
+import { getArticleData } from "../redux/counterSlice"
 const Desktop = () => {
   console.log("process.env.API_URL", process.env.API_URL)
   const dispatch = useDispatch()
+  const [articleData, setArticleData] = useState({})
   const getToken = async () => {
     const token_response = await axios.post(process.env.NEXT_PUBLIC_API_URL + "/auth/generate-token", {
 
@@ -22,9 +22,8 @@ const Desktop = () => {
   }
 
   const getData = async () => {
-    dispatch(setLoading())
     try {
-
+      dispatch(getArticleData({ type: "REQUEST" }))
 
       const token = await getToken()
 
@@ -51,22 +50,18 @@ const Desktop = () => {
     getData()
   }, [])
 
-  // const TreeCompoment = React.useMemo(() => <TreeMap setNodeDetails={setNodeDetails} data={articles?.article_summarization?.mind_mapping} loading={articleLoading}/>, []);
+  const TreeCompoment = React.useMemo(() => articleLoading ? "Loading" : <TreeMap setNodeDetails={setNodeDetails} data={articles?.article_summarization?.mind_mapping} loading={articleLoading} />, []);
 
-  console.log("props.loading", articleLoading)
+  console.log("articleData", articleData)
   return (
     <div className={styles.page}>
-      <img
-        className={styles.headerImageContainerIcon}
-        alt=""
-        src="images/headerimagecontainer@2x.png"
-      />
       <div className={styles.cardPrimary}>
         <b className={styles.subject} />
         <div className={styles.scienceAndTechnologyContainer}>
-          <b>Title:</b>
+          <b>Title: </b>
           <span>
             {articles?.article_summarization?.title}
+
           </span>
         </div>
       </div>
@@ -88,71 +83,61 @@ const Desktop = () => {
       </div>
       <div className={styles.cardPrimary3}>
         <div className={styles.scienceAndTechnologyContainer3}>
-          <p
-            className={styles.manyWarmingRecords}
-          >
+          <p className={styles.manyWarmingRecords}>
             {articles?.article_summarization?.content}
+
           </p>
         </div>
       </div>
       <div className={styles.mindMapping}>
         <div className={styles.tree} >
-          {/* {articleLoading?"Loading": TreeCompoment} */}
-
-          {articleLoading ? "Loading" : <TreeMap setNodeDetails={setNodeDetails} data={articles?.article_summarization?.mind_mapping} loading={articleLoading} />}
+          {articleLoading ? "Loading" : TreeCompoment}
         </div>
         <div className={styles.treeContent}>
-          <div className={styles.nodeContent}>{nodeDetails}</div>
+          <div className={styles.nodeContent}>
+            {nodeDetails}
+          </div>
         </div>
       </div>
       <div className={styles.keyTermsContainer}>
-        <b className={styles.nodeContent}>
-          Key Terms, Keywords and Fact Used in the Article
-        </b>
-        {articles?.search_terms?.map((item) => (<div className={styles.searchTermSingle}>
-          <div className={styles.contentContainer}>
-            <div className={styles.nodeContent}>
-              <b>{`Search Terms: `}</b>
-              <span>{item.search_term}</span>
+        <b className={styles.keyTerms}>Key Terms, Keywords and Fact Used in the Article</b>
+        {articles?.search_terms?.map((item) => (
+          <div className={styles.searchTermSingle}>
+            <div className={styles.contentContainer}>
+              <div className={styles.nodeContent}>
+                <b>{`Search Terms: `}</b>
+                <span>{item.search_term}</span>
+              </div>
+              <div className={styles.nodeContent}>
+                <b>{`Source: `}</b>
+                <span>{item.source}</span>
+              </div>
+              <b className={styles.nodeContent}>Content:</b>
+              <div className={styles.contentDetails}>
+                <div className={styles.contentDetails1}>
+                  <pre> {item.content.trim()}</pre>
+                </div>
+              </div>
             </div>
-            <div className={styles.nodeContent}>
-              <b>{`Source: `}</b>
-              <span>{item.source}</span>
-            </div>
-            <b className={styles.nodeContent}>Content:</b>
-            <div className={styles.contentDetails}>
-              <div className={styles.contentDetails1}>
-                <pre> {item.content.trim()}</pre>
+            <div className={styles.imagesContainer}>
+              <div className={styles.imageGroup}>
+                {
+                  item?.images?.map((image) => (
+                    <img className={styles.imageIcon} alt="" src={"https://drive.google.com/thumbnail?id=" + image?.drive_image_url?.split("/")[5]} />
+
+                  ))
+                }
+                {/* <img className={styles.imageIcon} alt="" src="/image@2x.png" />
+              <img className={styles.imageIcon} alt="" src="/image@2x.png" />
+              <img className={styles.imageIcon} alt="" src="/image@2x.png" />
+              <img className={styles.imageIcon} alt="" src="/image@2x.png" />
+              <img className={styles.imageIcon} alt="" src="/image@2x.png" />
+              <img className={styles.imageIcon} alt="" src="/image@2x.png" /> */}
               </div>
             </div>
           </div>
-          <div className={styles.imagesContainer}>
-            <div className={styles.imageGroup}>
-              {
-                item?.images?.map((image) => (
-                  <img className={styles.imageIcon} alt="" src={"https://drive.google.com/thumbnail?id=" + image?.drive_image_url?.split("/")[5]} />
+        ))}
 
-                ))
-              }
-            </div>
-          </div>
-        </div>))}
-      </div>
-      <PodcastShareContainer />
-      <div className={styles.searchSection}>
-        <div className={styles.input}>
-          <textarea
-            className={styles.type}
-            placeholder="Type Here...."
-            rows={4}
-            required={true}
-          />
-          <div className={styles.basilarrowUpOutlineWrapper}>
-            <button className={styles.basilarrowUpOutline}>
-              <img className={styles.vectorIcon} alt="" src="/vector1.svg" />
-            </button>
-          </div>
-        </div>
       </div>
     </div>
   );

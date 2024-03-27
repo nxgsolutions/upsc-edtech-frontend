@@ -1,15 +1,5 @@
-.headerImageContainerIcon {
-  align-self: stretch;
-  position: relative;
-  border-radius: 5px 5px 0px 0px;
-  max-width: 100%;
-  overflow: hidden;
-  height: 360px;
-  flex-shrink: 0;
-  object-fit: cover;
-}
 .subject {
-  width: 0px;
+  width: 0;
   position: relative;
   display: none;
 }
@@ -21,7 +11,7 @@
 .cardPrimary {
   align-self: stretch;
   border-radius: 5px;
-  background-color: #1f1f1f;
+  background-color: #424242;
   border-bottom: 1px solid #ff3535;
   overflow: hidden;
   flex-shrink: 0;
@@ -42,45 +32,34 @@
 .cardPrimary1 {
   flex: 1;
   border-radius: 5px;
-  background-color: #1f1f1f;
+  background-color: #424242;
   border-bottom: 1px solid #ff3535;
-  box-sizing: border-box;
+  flex-wrap: wrap;
+  align-items: center;
+  padding: 16px 15px;
+}
+.cardPrimary1,
+.cardPrimary2,
+.oneColuns {
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
   justify-content: flex-start;
-  padding: 16px 15px;
   gap: 10px;
-  min-width: 350px;
 }
 .cardPrimary2 {
   flex: 1;
   border-radius: 5px;
-  background-color: #1f1f1f;
+  background-color: #424242;
   border-bottom: 1px solid #ff3535;
-  box-sizing: border-box;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: flex-start;
   padding: 16px;
-  gap: 10px;
-  min-width: 350px;
 }
 .oneColuns {
   align-self: stretch;
-  overflow: hidden;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
   align-items: flex-start;
-  justify-content: flex-start;
-  gap: 10px;
 }
 .manyWarmingRecords {
   margin: 0;
@@ -118,11 +97,18 @@
   box-sizing: border-box;
   height: 410px;
   overflow: hidden;
-  min-width: 600px;
+  min-width: 800px;
 }
 .nodeContent {
   align-self: stretch;
   position: relative;
+}
+.mindMapping,
+.treeContent {
+  overflow: hidden;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
 }
 .treeContent {
   flex: 1;
@@ -130,32 +116,29 @@
   border-bottom: 1px solid #ec0909;
   box-sizing: border-box;
   height: 410px;
-  overflow: hidden;
-  display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
   padding: 32px 16px;
   min-width: 363px;
 }
 .mindMapping {
   align-self: stretch;
-  background-color: rgba(60, 60, 60, 0);
-  overflow: hidden;
+  background-color: transparent;
   flex-shrink: 0;
-  display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  align-items: flex-start;
-  justify-content: flex-start;
   gap: 10px;
   font-size: 16px;
+}
+.keyTerms {
+  align-self: stretch;
+  position: relative;
+  font-size: 18px;
 }
 .contentDetails1 {
   position: absolute;
   width: calc(100% - 16px);
-  top: 0px;
-  left: 0px;
+  top: 0;
+  left: 0;
   display: inline-block;
   height: 220px;
 }
@@ -176,7 +159,7 @@
   padding: 10px;
   box-sizing: border-box;
   gap: 10px;
-  min-width: 400px;
+  min-width: 600px;
 }
 .imageIcon {
   width: 170px;
@@ -190,133 +173,78 @@
   flex: 1;
   height: 350px;
   overflow-y: auto;
+  justify-content: space-between;
+}
+.imageGroup,
+.imagesContainer,
+.searchTermSingle {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: flex-start;
-  justify-content: center;
-  gap: 10px 18px;
 }
 .imagesContainer {
   flex: 1;
   overflow-y: auto;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: flex-start;
-  padding: 10px;
+  justify-content: center;
+  padding: 10px 30px;
   box-sizing: border-box;
-  min-width: 400px;
+  min-width: 600px;
 }
 .searchTermSingle {
   align-self: stretch;
   border-radius: 5px;
   border: 1px solid #000;
   overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   padding: 10px;
   gap: 10px;
+}
+.imagesContainer1,
+.keyTermsContainer,
+.page {
+  display: flex;
+  align-items: flex-start;
+  box-sizing: border-box;
+}
+.imagesContainer1 {
+  flex: 1;
+  height: 347px;
+  overflow-y: auto;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding: 10px 30px;
+  min-width: 600px;
+}
+.keyTermsContainer,
+.page {
+  flex-direction: column;
+  justify-content: flex-start;
 }
 .keyTermsContainer {
   align-self: stretch;
   background-color: #1f1f1f;
   border-bottom: 1px solid #e80000;
+  /* height: 1572px; */
   overflow: hidden;
   flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
   padding: 10px;
   gap: 10px;
   font-size: 16px;
-}
-.type {
-  border: none;
-  background-color: transparent;
-  height: 20px;
-  /* font-family: Chivo; */
-  font-size: 18px;
-  outline: none;
-  flex: 1;
-  position: relative;
-  color: rgba(255, 255, 255, 0.44);
-  resize: none;
-}
-.vectorIcon {
-  position: absolute;
-  height: 54.24%;
-  width: 39.71%;
-  top: 21.82%;
-  right: 30.29%;
-  bottom: 23.94%;
-  left: 30%;
-  max-width: 100%;
-  overflow: hidden;
-  max-height: 100%;
-}
-.basilarrowUpOutline {
-  cursor: pointer;
-  border: none;
-  padding: 0;
-  background-color: #fffafa;
-  position: absolute;
-  top: 0px;
-  left: 0px;
-  border-radius: 5px;
-  width: 35px;
-  height: 33px;
-  overflow: hidden;
-}
-.basilarrowUpOutlineWrapper {
-  width: 35px;
-  position: relative;
-  height: 33px;
-}
-.input {
-  align-self: stretch;
-  border-radius: 40px;
-  background-color: #373737;
-  overflow: hidden;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-  padding: 20px 30px;
-}
-.searchSection {
-  align-self: stretch;
-  overflow: hidden;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 10px 0px;
 }
 .page {
   width: 100%;
   position: relative;
   background-color: #0d0d0d;
   overflow-y: auto;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  padding: 94px 220px;
-  box-sizing: border-box;
-  gap: 10px;
+  padding: 94px 90px;
+  gap: 16px;
   text-align: left;
   font-size: 24px;
   color: #fff;
   /* font-family: Inter; */
 }
-
 @media screen and (max-width: 960px) {
   .page {
     padding-left: 32px;
@@ -325,10 +253,6 @@
   }
 }
 @media screen and (max-width: 420px) {
-  .contentContainer {
-    min-width: 0px;
-  }
-
   .page {
     padding-left: 16px;
     padding-right: 16px;

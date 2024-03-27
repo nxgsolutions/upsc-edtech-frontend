@@ -1,31 +1,75 @@
 'use client'
 import * as d3 from 'd3';
-import React, { useEffect, useRef } from 'react';
-
+import React, { useEffect, useRef, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 // Set the dimensions and margins of the diagram
 
-const TreeMap = () => {
+const TreeMap = (props) => {
+  const [treeData, setTreeData] = useState({
+    "name": "Polity and Governance",
+    "children": [
+      {
+        "name": "Immigration Policies and Homeland Security",
+        "children": [
+          {
+            "name": "US-Mexico border"
+          },
+          {
+            "name": "House Representatives"
+          },
+          {
+            "name": "Alejandro Mayorkas"
+          }
+        ]
+      },
+      {
+        "name": "Immigration Challenges",
+        "children": [
+          {
+            "name": "Increase in global migration"
+          },
+          {
+            "name": "Economic crisis in Venezuela"
+          },
+          {
+            "name": "Gang violence in Central America"
+          }
+        ]
+      },
+      {
+        "name": "Issues in US Immigration System",
+        "children": [
+          {
+            "name": "Strict immigration laws"
+          },
+          {
+            "name": "Overburdened immigration court system"
+          },
+          {
+            "name": "Failure of US Congress to reform immigration laws"
+          }
+        ]
+      },
+      {
+        "name": "Impact on 2024 Presidential Race",
+        "children": [
+          {
+            "name": "Republicans vs. Democrats"
+          },
+          {
+            "name": "Public perception of Biden's border management"
+          },
+          {
+            "name": "Trust in Trump on immigration"
+          }
+        ]
+      }
+    ]
+  })
+  // const [nodeDetails,setNodeDeatis]= useState("")
   var margin = { top: 20, right: 90, bottom: 30, left: 140 }
   var width = 760 - margin.left - margin.right
   var height = 407 - margin.top - margin.bottom;
-  
-  // append the svg object to the body of the page
-  // appends a 'group' element to 'svg'
-  // moves the 'group' element to the top left margin
-  // var svg = d3.select("body").append("svg")
-  //     // .attr("width", width + margin.right + margin.left)
-  //     .attr("width", "100%")
-  //     .attr("height", height + margin.top + margin.bottom)
-  //     .append("g")
-  //     .attr("transform", "translate("
-  //         + margin.left + "," + margin.top + ")")
-  // .on("click", function (d) {
-  //         div.transition()
-  //             .duration(500)
-  //             .style("opacity", 0);
-  //     });
-  // Define the div for the tooltip
-  
   function expand(d) {
     if (d._children) {
       d.children = d._children;
@@ -35,15 +79,11 @@ const TreeMap = () => {
     if (children)
       children.forEach(expand);
   }
-  
-  
-  
-  
   // Collapse the node and all it's children
   function collapse(d) {
     if (d.children) {
       d._children = d.children
-      d._children.forEach(collapse)
+      // d._children.forEach(collapse)
       d.children = null
     }
   }
@@ -56,19 +96,19 @@ const TreeMap = () => {
   }
   const treemap = d3.tree().size([height, width]);
   function update(source, svg, div) {
-  
+
     // Assigns the x and y position for the nodes
     var treeData = treemap(source);
-  
+
     // Compute the new tree layout.
     var nodes = treeData.descendants(),
       links = treeData.descendants().slice(1);
-  
+
     // Normalize for fixed-depth.
     nodes.forEach(function (d) { d.y = d.depth * 150 });
-  
+
     // ****************** Nodes section ***************************
-  
+
     // Update the nodes...
     var i = 0
     var duration = 450
@@ -82,17 +122,19 @@ const TreeMap = () => {
     //         .style("left", (d3.event.pageX + 10) + "px")
     //         .style("top", (d3.event.pageY - 35) + "px");
     // })
-  
-  
+
+
     // Enter any new modes at the parent's previous position.
     var nodeEnter = node.enter().append('g')
       .attr('class', 'node')
       .attr("transform", function (d) {
         return "translate(" + source.y0 + "," + source.x0 + ")";
       })
-      .on('click', (e)=>click(e))
-  
-  
+      .on('click', function (e, d) {
+        click(d, svg)
+      })
+
+
     // Add Circle for the nodes
     nodeEnter.append('circle')
       .attr('class', 'node')
@@ -100,6 +142,7 @@ const TreeMap = () => {
       // .attr("title", function (d) { return d.link; })
       // .append("title")
       // .text(function (d) { return d.data.link ? "Click on text to Open Link" : d.data.name})
+
       .style("fill", function (d) {
         return d._children ? "#c10f6e" : "#fff";
       })
@@ -111,30 +154,31 @@ const TreeMap = () => {
     //     .style("left", (d3.event.pageX + 15) + "px")
     //     .style("top", (d3.event.pageY - 35) + "px");
     // });
-  
+
     // Add labels for the nodes
     nodeEnter.append('text')
       .attr("dy", ".35em")
       .attr("x", function (d) {
         return d.children || d._children ? -13 : 13;
       })
-      .attr("text-anchor", function (d) {
-        return d.children || d._children ? "end" : "start";
-      })
-  
+      // .attr("text-anchor", function (d) {
+      //   return d.children || d._children ? "end" : "start";
+      // })
+
       // .text(function (d) { return d.data.name; })
       .style("stroke", function (d) { return d.data.link ? "#1598ff" : "black"; })
-      .style("stroke-width", function (d) { return d.data.link ? "0.5px" : "0px"; });
-  
-  
+      .style("stroke-width", function (d) { return d.data.link ? "0.5px" : "0px"; })
+      .style("cursor", "pointer");
+
+
     nodeEnter.each(function (d) {
-      var textWidth = getTextWidth(d.data.name, "12px sans-serif"); // Adjust font size and family as needed
+      var textWidth = getTextWidth(d.data?.name, "12px sans-serif"); // Adjust font size and family as needed
       var padding = 5; // Padding to add around the text
       // var width = textWidth + padding;
       var Xpos = textWidth < 120 ? textWidth - (textWidth + 145) : -140
       // var Xpos=-80
       var width = 90
-  
+
       width = textWidth > 90 ? 90 : textWidth + padding
       var foreignObject = d3.select(this)
         .append("foreignObject")
@@ -152,11 +196,13 @@ const TreeMap = () => {
         .style("text-align", function (d) { return d.children || d._children ? "right" : "left" })
         .style("overflow", "hidden")
         .style("text-overflow", function (d) { return d.children || d._children ? "ellipsis" : "ellipsis" })
+        .style("cursor", "pointer")
+        .on('click', function (e, d) { console.log("clicked"), props.setNodeDetails(d.data.name) })
         .html(function (d) { return d.data.name; });
     });
-  
-  
-  
+
+
+
     //             nodeEnter.append("foreignObject")
     // .attr("width", 90) // Adjust according to your need
     // .attr("height", 50) // Adjust according to your need
@@ -173,29 +219,29 @@ const TreeMap = () => {
     // .style("overflow", "hidden")
     // .style("text-overflow", "ellipsis")
     // .html(function(d) { return d.data.name; });
-  
-    nodeEnter.append("a")
-      .attr("xlink:href", function (d) { return d.data.link; })
-      .attr("target", "_blank")
-  
-      .append("svg:text")
-      .attr("x", function (d) { return d._children || d._children ? -10 : 10; })
-      .attr("dy", ".35em")
-      .attr("text-anchor", function (d) { return d._children || d._children ? "end" : "start"; })
-      .text(function (d) { return d.data.name; })
-      .style("fill-opacity", 1e-6);
-  
-  
+
+    // nodeEnter.append("a")
+    //   .attr("xlink:href", function (d) { return d.data.link; })
+    //   .attr("target", "_blank")
+
+    //   .append("svg:text")
+    //   .attr("x", function (d) { return d._children || d._children ? -10 : 10; })
+    //   .attr("dy", ".35em")
+    //   .attr("text-anchor", function (d) { return d._children || d._children ? "end" : "start"; })
+    //   .text(function (d) { return d.data.name; })
+    //   .style("fill-opacity", 1e-6);
+
+
     // UPDATE
     var nodeUpdate = nodeEnter.merge(node);
-  
+
     // Transition to the proper position for the node
     nodeUpdate.transition()
       .duration(duration)
       .attr("transform", function (d) {
         return "translate(" + d.y + "," + d.x + ")";
       });
-  
+
     // Update the node attributes and style
     nodeUpdate.select('circle.node')
       .attr('r', 6)
@@ -203,9 +249,9 @@ const TreeMap = () => {
         return d._children ? "#c10f6e" : "#fff";
       })
       .attr('cursor', 'pointer');
-  
-  
-  
+
+
+
     // Remove any exiting nodes
     var nodeExit = node.exit().transition()
       .duration(duration)
@@ -213,21 +259,21 @@ const TreeMap = () => {
         return "translate(" + source.y + "," + source.x + ")";
       })
       .remove();
-  
+
     // On exit reduce the node circles size to 0
     nodeExit.select('circle')
       .attr('r', 1e-6);
-  
+
     // On exit reduce the opacity of text labels
     nodeExit.select('text')
       .style('fill-opacity', 1e-6);
-  
+
     // ****************** links section ***************************
-  
+
     // Update the links...
     var link = svg.selectAll('path.link')
       .data(links, function (d) { return d.id; });
-  
+
     // Enter any new links at the parent's previous position.
     var linkEnter = link.enter().insert('path', "g")
       .attr("class", "link")
@@ -235,15 +281,15 @@ const TreeMap = () => {
         var o = { x: source.x0, y: source.y0 }
         return diagonal(o, o)
       });
-  
+
     // UPDATE
     var linkUpdate = linkEnter.merge(link);
-  
+
     // Transition back to the parent element position
     linkUpdate.transition()
       .duration(duration)
       .attr('d', function (d) { return diagonal(d, d.parent) });
-  
+
     // Remove any exiting links
     var linkExit = link.exit().transition()
       .duration(duration)
@@ -252,161 +298,96 @@ const TreeMap = () => {
         return diagonal(o, o)
       })
       .remove();
-  
+
     // Store the old positions for transition.
     nodes.forEach(function (d) {
       d.x0 = d.x;
       d.y0 = d.y;
     });
-  
+
     // Creates a curved (diagonal) path from parent to the child nodes
     function diagonal(s, d) {
-  
+
       var path = `M ${s.y} ${s.x}
                               C ${(s.y - 30 + d.y) / 2} ${s.x},
                                 ${(s.y - 30 + d.y) / 2} ${d.x},
                                 ${d.y} ${d.x}`
-  
+
       return path
     }
-  
+
     // Toggle children on click.
     function click(d) {
-      console.log("clicked",d)
-      if (d.children) {
-        d._children = d.children;
-        d.children = null;
-      } else {
-        d.children = d._children;
-        d._children = null;
-      }
-      update(d);
+      // console.log("clicked",d)
+      // if (d.children) {
+      //   d._children = d.children;
+      //   d.children = null;
+      // } else {
+      //   d.children = d._children;
+      //   d._children = null;
+      // }
+      // update(d,svg);
     }
-  
+
   }
-  
+
   const svgRef = useRef();
-  const treeData = {
-    "name": "International relations",
-    "children": [
-      {
-        "name": "India",
-        "children": [
-          {
-            "name": "ties with Maldives", "children": [
-              { "name": "assertiveness in the region" },
-              { "name": "relations with Maldives" }
-            ]
-          },
-          {
-            "name": "neighbouring countries", "children": [
-              { "name": "assertiveness in the region", "link": "https://google.com" },
-              { "name": "relations with Maldives" },
-              { "name": "relations with Maldives" }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "Maldives",
-        "children": [
-          { "name": "close to China" },
-          {
-            "name": "Chinese influence", "children": [
-              { "name": "assertiveness in the region" },
-              { "name": "relations with Maldives" }
-            ]
-          }
-        ]
-      },
-      {
-        "name": "China",
-        "children": [
-          { "name": "assertiveness in the region" },
-          { "name": "relations with Maldives" }
-        ]
-      },
-      {
-        "name": "China",
-        "children": [
-          { "name": "assertiveness in the region" },
-          { "name": "relations with Maldives" }
-        ]
-      },
-      {
-        "name": "China",
 
-      },
-      {
-        "name": "China",
-
-      },
-      // {
-      //     "name": "China",
-
-      // },
-      // {
-      //     "name": "China",
-
-      // },
-      {
-        "name": "China",
-        "children": [
-          { "name": "assertiveness in the region" },
-          { "name": "relations with Maldives" }
-        ]
-      }
-
-    ]
-  }
   useEffect(() => {
 
-    // Create an SVG container
-    [...svgRef.current.children].forEach((child) => {
-      if (!child.value) {
-        svgRef.current.removeChild(child);
-      }
-    });
-    var svg = d3.select(svgRef.current).append("svg")
-      // .attr("width", width + margin.right + margin.left)
-      .attr("width", "100%")
-      .attr("height", height + margin.top + margin.bottom)
-      .append("g")
-      .attr("transform", "translate("
-        + margin.left + "," + margin.top + ")")
+
+    if (!props.loading) {   // Create an SVG container
+      [...svgRef.current.children].forEach((child) => {
+        if (!child.value) {
+          svgRef.current.removeChild(child);
+        }
+      });
+
+      const svg = d3.select(svgRef.current).append("svg")
+        // .attr("width", width + margin.right + margin.left)
+        .call(d3.zoom().on("zoom", function () {
+          svg.attr("transform", d3.zoomTransform(this))
+        }))
+        .attr("width", "100%")
+        .attr("height", height + margin.top + margin.bottom)
+        .append("g")
+        .attr("transform", "translate("
+          + margin.left + "," + margin.top + ")")
+        .attr("class", "grabbable")
       // .on("click", function (d) {
       //         div.transition()
       //             .duration(500)
       //             .style("opacity", 0);
       //     });
-    // var div = d3.select("body").append("div")
-    //   .attr("class", "tooltip")
-    //   .style("opacity", 0);
+      // var div = d3.select("body").append("div")
+      //   .attr("class", "tooltip")
+      //   .style("opacity", 0);
 
-    // d3.select("body")
-    //   .on("click", function (d) {
-    //     div.transition()
-    //       .duration(500)
-    //       .style("opacity", 0);
-    //   });
+      // d3.select("body")
+      //   .on("click", function (d) {
+      //     div.transition()
+      //       .duration(500)
+      //       .style("opacity", 0);
+      //   });
 
-    var x = d3.scaleBand()
-      .range([0, width])
-      .paddingInner(.1)
-      .paddingOuter(.3)
-    // declares a tree layout and assigns the size
+      var x = d3.scaleBand()
+        .range([0, width])
+        .paddingInner(.1)
+        .paddingOuter(.3)
+      // declares a tree layout and assigns the size
 
-    // Add your chart elements here
-    // Assigns parent, children, height, depth
-    var root = d3.hierarchy(treeData, function (d) { return d.children; });
-    root.x0 = height / 2;
-    root.y0 = 0;
+      // Add your chart elements here
+      // Assigns parent, children, height, depth
+      var root = d3.hierarchy(treeData, function (d) { return d.children; });
+      root.x0 = height / 2;
+      root.y0 = 0;
 
-    // Collapse after the second level
-    root.children.forEach(collapse);
-    expand(root)
-    update(root, svg);
-    console.log("render")
+      // Collapse after the second level
+      // root.children.forEach(collapse);
+      expand(root)
+      update(root, svg);
+    }
+    // console.log("render")
   }, [treeData]);
 
   return (

@@ -53,6 +53,12 @@ button{
   border-radius: 6px;
   border-color: #3ae8ad;
 }
+pre {
+  word-wrap: break-word;
+  font-family: Roboto, Helvetica, Arial, sans-serif;
+  white-space: pre-wrap;
+  width: 100%;
+}
 h1{
   line-height: 60px;
   font-size: 40px;
@@ -169,7 +175,7 @@ a {
 .link {
   fill: none;
   stroke: #ccc;
-  stroke-width: 1px;
+  stroke-width: 0.5px;
 }
 
 div.tooltip {
@@ -185,9 +191,9 @@ div.tooltip {
 
 }
 
-svg {
+/* svg {
   border: solid 1px
-}
+} */
 
 .text-div {
   overflow: hidden;
@@ -197,4 +203,17 @@ svg {
   /* padding-left: 9px; */
   position: relative;
   top: -15%;
+}
+.grabbable {
+  cursor: move; /* fallback if grab cursor is unsupported */
+  cursor: grab;
+  cursor: -moz-grab;
+  cursor: -webkit-grab;
+}
+
+/* (Optional) Apply a "closed-hand" cursor during drag operation. */
+.grabbable:active {
+  cursor: grabbing;
+  cursor: -moz-grabbing;
+  cursor: -webkit-grabbing;
 }
